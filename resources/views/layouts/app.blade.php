@@ -254,7 +254,7 @@
 }
 
 </style>
-@livewireStyles
+@livewireStyles()
 
 </head>
 <body>
@@ -306,6 +306,6 @@
     @endif
 
     @include('partials.footer')
-    @livewireScripts
+    @livewireScripts()
 </body>
 </html>

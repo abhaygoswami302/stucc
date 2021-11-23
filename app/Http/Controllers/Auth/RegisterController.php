@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,6 +42,13 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function redirectTo()
+    {  
+        Auth::logout();
+    	$this->redirectTo="/login";
+        return $this->redirectTo;
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -53,6 +61,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'flag' => ['required', 'string'],
+            'image' => [ 'mimes:jpeg,jpg,png,gif', 'required', 'max:10000'],
         ]);
     }
 
@@ -64,10 +74,38 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $membership = "";
+        if($data['flag'] == 1){
+            $membership = 'Basic';
+        }elseif($data['flag'] == 2){
+            $membership = 'Standard';
+        }elseif($data['flag'] == 3){
+            $membership = 'Premium';
+        }
+
+        $image = $data['image'];
+        $name = time().'.'.$image->getClientOriginalExtension();
+        $destinationPath = public_path("images/user/profiles");
+        $image->move($destinationPath, $name);
+        $profile_picture ="images/user/profiles/".$name;
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'flag' => $data['flag'],
+            'membership' => $membership,
+            'image' => $profile_picture,
         ]);
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm($flag)
+    {
+        return view('auth.register', compact('flag'));
     }
 }
