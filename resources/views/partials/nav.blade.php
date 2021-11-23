@@ -59,7 +59,7 @@
                                     <li><a href="{{ route('pricing') }}">Product 1</a></li>
                                 </ul>
                             </li-->
-                            <li class="active MnLst"><a href="{{ route('custom.collections') }}">Collections</a></li>
+                            <li class="active MnLst"><a href="{{ route('pricing') }}">Collections</a></li>
                             <li class="MnLst"><a href="{{ route('pricing') }}">Categories</a></li>
                             <li class="MnLst"><a href="{{ route('pricing') }}">Products</a></li>
                             <li class="MnLst"><a href="{{ route('pricing') }}">Forum</a></li>
