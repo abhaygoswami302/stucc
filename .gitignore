@@ -1,8 +1,10 @@
+.htaccess
+index.php
 /node_modules
-/public/hot
-/public/storage
 /storage/*.key
 /vendor
+all.min.css
+public/css/fonts.css
 .env
 .env.backup
 .phpunit.result.cache
